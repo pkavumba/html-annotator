@@ -1,0 +1,68 @@
+#!/usr/bin/env node
+var browserify = require('browserify-middleware');
+var connect = require('connect');
+var jwt = require('jwt-simple');
+var serveStatic = require('serve-static');
+
+var CONSUMER_KEY = 'mockconsumer';
+var CONSUMER_SECRET = 'mockconsumersecret';
+var CONSUMER_TTL = 1800;
+
+var app = module.exports = connect();
+
+// Token
+app.use('/api/token', function(request, response) {
+  var payload = {
+    'consumerKey': CONSUMER_KEY,
+    'userId': 'alice',
+    'issuedAt': new Date().toISOString(),
+    'ttl': CONSUMER_TTL
+  };
+  var tok = jwt.encode(payload, CONSUMER_SECRET);
+
+  response.setHeader('Access-Control-Allow-Origin', request.headers['origin']);
+  response.setHeader('Access-Control-Allow-Credentials', 'true');
+  response.setHeader('Access-Control-Expose-Headers', 'Location, Content-Type, Content-Length');
+
+  if (request.method == 'OPTIONS') {
+    response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Content-Length');
+    response.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    response.setHeader('Access-Control-Max-Age', '86400');
+  }
+
+  response.end(tok);
+});
+
+app.use('/bundle/annotator.js', browserify('index.js', {standalone: 'annotator'}));
+
+// Serve any browserifiable module. Useful when developing external modules. If
+// you are developing the "annotator-widgets" module you can run
+//
+//     npm link
+//
+// in the annotator-widgets repository, followed by
+//
+//     npm link annotator-widgets
+//
+// in the annotator repository, and then you can load
+//
+//     /bundle/ext/annotator-widgets.js
+//
+// from this server.
+app.use('/bundle/ext', function (req, res, next) {
+  if (req.url.slice(0, 1) !== '/' || req.url.slice(-3) !== '.js') {
+    next();
+  }
+  var moduleName = req.url.slice(1, -3);
+  browserify([moduleName])(req, res, next);
+});
+
+// Static files
+app.use(serveStatic(process.cwd()));
+
+// Go
+if (require.main === module) {
+  var port = process.env.PORT || 4000;
+  app.listen(port);
+  console.log("Development: http://localhost:" + port + "/dev.html");
+}

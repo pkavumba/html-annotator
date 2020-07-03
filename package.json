@@ -1,0 +1,57 @@
+{
+  "name": "html-annotator",
+  "version": "0.1.0",
+  "description": "Annotation for the html content.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pkavumba/html-annotator.git"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "backbone-extend-standalone": "^0.1.2",
+    "clean-css": "^3.4.4",
+    "enhance-css": "^1.1.0",
+    "es6-promise": "^3.0.2",
+    "insert-css": "^0.2.0",
+    "jquery": "^1.11.3",
+    "xpath-range": "0.0.5"
+  },
+  "devDependencies": {
+    "assertive-chai": "^1.0.0",
+    "babel-eslint": "^10.1.0",
+    "browserify": "^11.2.0",
+    "browserify-middleware": "^7.0.0",
+    "concat-stream": "^1.5.0",
+    "connect": "^3.4.0",
+    "eslint": "^7.3.1",
+    "esprima": "^2.6.0",
+    "grunt": "^1.1.0",
+    "grunt-contrib-jshint": "^2.1.0",
+    "jscs": "^2.1.1",
+    "jshint": "^2.8.0",
+    "jwt-simple": "^0.3.1",
+    "karma-browserify": "^4.3.0",
+    "karma-mocha": "^0.2.0",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "mocha": "^2.3.3",
+    "phantomjs": "^1.9.18",
+    "prettier": "^2.0.5",
+    "serve-static": "^1.10.0",
+    "showdown": "^1.9.1",
+    "sinon": "^1.17.0",
+    "through": "^2.3.8",
+    "uglify-js": "^2.4.24",
+    "wgxpath": "^1.1.0"
+  },
+  "browser": "browser.js",
+  "browserify": {
+    "transform": [
+      "./tools/cssify"
+    ]
+  },
+  "scripts": {
+    "serve": "./tools/serve",
+    "test": "./node_modules/karma/bin/karma start --single-run",
+    "lint": "jshint src && jscs src && jshint -c test/.jshintrc test && jscs -c test/.jscsrc test"
+  }
+}

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Annotator development</title>
+  <style>
+    body {
+      font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      letter-spacing: 0.01rem;
+      font-size: 22px;
+      line-height: 1.5;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+
+      /* This is evil but people do it. This checks that we correctly
+           calculate the position of the adder and other UI elements in any
+           situation. */
+      position: relative;
+      margin-top: 3em;
+    }
+
+    article {
+      width: 80%;
+      margin: 2em auto;
+    }
+  </style>
+</head>
+
+<body>
+  <article>
+    <p>
+      <strong>Pellentesque habitant morbi tristique</strong> senectus et netus
+      et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat
+      vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet
+      quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris
+      placerat eleifend leo. Quisque sit amet est et sapien ullamcorper
+      pharetra. Vestibulum erat wisi, condimentum sed,
+      <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum,
+      elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus
+      lacus enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar
+      facilisis. Ut felis.
+    </p>
+
+    <h2>Header Level 2</h2>
+
+    <ol>
+      <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+      <li>Aliquam tincidunt mauris eu risus.</li>
+    </ol>
+
+    <blockquote>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
+        magna. Cras in mi at felis aliquet congue. Ut a est eget ligula
+        molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis
+        mollis, tellus est malesuada tellus, at luctus turpis elit sit amet
+        quam. Vivamus pretium ornare est.
+      </p>
+    </blockquote>
+
+    <h3>Header Level 3</h3>
+
+    <ul>
+      <li id="listone">
+        Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+      </li>
+      <li id="listtwo">Aliquam tincidunt mauris eu risus.</li>
+    </ul>
+
+    <pre><code>
+      #header h1 a {
+        display: block;
+        width: 300px;
+        height: 80px;
+      }
+      </code></pre>
+
+    <table>
+      <thead>
+        <tr>
+          <td>Heading One</td>
+          <td>Heading Two</td>
+          <td>Heading Three</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Side One</th>
+          <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</td>
+          <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</td>
+        </tr>
+        <tr>
+          <th>Side Two</th>
+          <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</td>
+          <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</td>
+        </tr>
+        <tr>
+          <th>Side Three</th>
+          <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</td>
+          <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</td>
+        </tr>
+        <tr>
+          <th>Side Four</th>
+          <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</td>
+          <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</td>
+        </tr>
+      </tbody>
+    </table>
+  </article>
+
+  <script>
+    var annotator = "noConflictBeforeValue";
+  </script>
+  <script src="bundle/annotator.js"></script>
+
+  <script>
+    var elem = document.querySelector("article");
+    var app = new annotator.App()
+      .include(annotator.ui.main, {
+        element: elem,
+        editorExtensions: [annotator.ui.colorPicker.editorExtension],
+        viewerExtensions: [
+          //annotator.ui.markdown.viewerExtension,
+          //annotator.ui.tags.viewerExtension,
+        ],
+      })
+      .include(annotator.ui.filter.standalone)
+      .include(annotator.storage.localStore);
+    /*.include(annotator.storage.http, {
+        prefix: "https://arxiv-vanity-restful-api.herokuapp.com/api",
+      }); */
+    app.start().then(function () {
+      app.annotations.load({
+        uri: window.location.href,
+      });
+    });
+  </script>
+</body>
+
+</html>
