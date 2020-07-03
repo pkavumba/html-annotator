@@ -29,7 +29,7 @@
     "grunt-contrib-jshint": "^2.1.0",
     "jscs": "^2.1.1",
     "jshint": "^2.8.0",
-    "jwt-simple": "^0.3.1",
+    "jwt-simple": "^0.5.3",
     "karma-browserify": "^4.3.0",
     "karma-mocha": "^0.2.0",
     "karma-phantomjs-launcher": "^0.2.1",
