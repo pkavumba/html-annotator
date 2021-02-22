@@ -33,7 +33,7 @@ app.use('/api/token', function(request, response) {
   response.end(tok);
 });
 
-app.use('/bundle/annotator.js', browserify('index.js', {standalone: 'annotator'}));
+app.use('/bundle/html.annotator.js', browserify('index.js', {standalone: 'annotator'}));
 
 // Serve any browserifiable module. Useful when developing external modules. If
 // you are developing the "annotator-widgets" module you can run

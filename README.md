@@ -19,8 +19,18 @@ Components within Annotator provide:
 
 ## 1. Usage
 
+### NPM
+
 ```
 npm install html-annotator
+```
+
+### CDN
+
+Currently html-annotator is not hosted on any CDN. You can download the prebuilt files from `pkg` file and include them in your html file as follows:
+
+```
+<script src="pkg/html.annotator.js"></script>
 ```
 
 ### Basic Usage
@@ -133,6 +143,10 @@ duplicates.
 Please endeavour to follow `good practice for reporting bugs` when you submit
 an issue.
 
-## 4. LiCENSE
+## 4. Demo
+
+Open the `demo.html` file for a demo
+
+## 5. LiCENSE
 
 MIT

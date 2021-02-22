@@ -2,4 +2,4 @@
 .deps/
 doc/_build/
 node_modules/
-pkg/
+#pkg/
