@@ -7,7 +7,7 @@
     "url": "https://github.com/pkavumba/html-annotator.git"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "backbone-extend-standalone": "^0.1.2",
     "clean-css": "^3.4.4",
     "enhance-css": "^1.1.0",
