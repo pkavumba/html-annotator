@@ -9,7 +9,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "backbone-extend-standalone": "^0.1.2",
-    "clean-css": "^3.4.4",
+    "clean-css": "^4.1.11",
     "enhance-css": "^1.1.0",
     "es6-promise": "^3.0.2",
     "insert-css": "^0.2.0",
