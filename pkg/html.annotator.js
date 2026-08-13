@@ -7796,8 +7796,8 @@ var annotator = (() => {
         });
       }
       var gettext = (function() {
-        if (typeof global.Gettext === "function") {
-          var _gettext = new global.Gettext({
+        if (typeof globalThis.Gettext === "function") {
+          var _gettext = new globalThis.Gettext({
             domain: "annotator"
           });
           return function(msgid) {
@@ -7809,7 +7809,7 @@ var annotator = (() => {
         };
       })();
       function mousePosition(event) {
-        var body = global.document.body;
+        var body = globalThis.document.body;
         var offset = {
           top: 0,
           left: 0
@@ -7862,7 +7862,7 @@ var annotator = (() => {
             $(element).remove();
           }, 500);
         };
-        $(element).addClass(bannerClasses.show).addClass(bannerClasses[severity]).html(util.escapeHtml(message || "")).appendTo(global.document.body);
+        $(element).addClass(bannerClasses.show).addClass(bannerClasses[severity]).html(util.escapeHtml(message || "")).appendTo(globalThis.document.body);
         $(element).on("click", close);
         setTimeout(close, 5e3);
         return {
@@ -13383,7 +13383,7 @@ var annotator = (() => {
         for (var i = 0, len = nodes.length; i < len; i++) {
           var node = nodes[i];
           if (!white.test(node.nodeValue)) {
-            var hl = global.document.createElement("span");
+            var hl = globalThis.document.createElement("span");
             hl.className = cssClass;
             node.parentNode.replaceChild(hl, node);
             hl.appendChild(node);
@@ -13546,7 +13546,7 @@ var annotator = (() => {
         }
       };
       TextSelector.prototype.captureDocumentSelection = function() {
-        var i, len, ranges = [], rangesToIgnore = [], selection = global.getSelection();
+        var i, len, ranges = [], rangesToIgnore = [], selection = globalThis.getSelection();
         if (selection.isCollapsed) {
           return [];
         }
@@ -14113,7 +14113,7 @@ var annotator = (() => {
       function injectDynamicStyle() {
         util.$("#annotator-dynamic-style").remove();
         var sel = "*:not(annotator-adder):not(annotator-outer):not(annotator-notice):not(annotator-filter)";
-        var max = maxZIndex(util.$(global.document.body).find(sel).get());
+        var max = maxZIndex(util.$(globalThis.document.body).find(sel).get());
         max = Math.max(max, 1e3);
         var rules = [
           ".annotator-adder, .annotator-outer, .annotator-notice {",
@@ -14182,7 +14182,7 @@ var annotator = (() => {
         if (typeof options === "undefined" || options === null) {
           options = {};
         }
-        options.element = options.element || global.document.body;
+        options.element = options.element || globalThis.document.body;
         options.editorExtensions = options.editorExtensions || [];
         options.viewerExtensions = options.viewerExtensions || [];
         var makeAnnotation = annotationFactory(options.element, ".annotator-hl");
@@ -19934,18 +19934,18 @@ var annotator = (() => {
         linkify: true
       });
       function getRenderer() {
-        if (typeof global.showdown !== "undefined") {
-          if (global.showdown && typeof global.showdown.Converter === "function") {
-            var converter = new global.showdown.Converter();
+        if (typeof globalThis.showdown !== "undefined") {
+          if (globalThis.showdown && typeof globalThis.showdown.Converter === "function") {
+            var converter = new globalThis.showdown.Converter();
             return converter.makeHtml.bind(converter);
           }
           return null;
         }
-        if (typeof global.markdownit !== "undefined") {
-          if (!global.markdownit) {
+        if (typeof globalThis.markdownit !== "undefined") {
+          if (!globalThis.markdownit) {
             return null;
           }
-          var parser = typeof global.markdownit === "function" ? global.markdownit() : global.markdownit;
+          var parser = typeof globalThis.markdownit === "function" ? globalThis.markdownit() : globalThis.markdownit;
           return parser.render.bind(parser);
         }
         return defaultMarkdown.render.bind(defaultMarkdown);
@@ -20096,13 +20096,13 @@ var annotator = (() => {
       exports.ui = require_ui();
       exports.util = util;
       exports.ext = {};
-      var wgxpath = global.wgxpath;
+      var wgxpath = globalThis.wgxpath;
       if (typeof wgxpath !== "undefined" && wgxpath !== null && typeof wgxpath.install === "function") {
         wgxpath.install();
       }
-      var _annotator = global.annotator;
+      var _annotator = globalThis.annotator;
       exports.noConflict = function noConflict() {
-        global.annotator = _annotator;
+        globalThis.annotator = _annotator;
         return this;
       };
     }

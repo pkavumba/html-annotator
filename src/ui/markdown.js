@@ -11,20 +11,20 @@ var defaultMarkdown = new MarkdownIt({
 });
 
 function getRenderer() {
-    if (typeof global.showdown !== 'undefined') {
-        if (global.showdown && typeof global.showdown.Converter === 'function') {
-            var converter = new global.showdown.Converter();
+    if (typeof globalThis.showdown !== 'undefined') {
+        if (globalThis.showdown && typeof globalThis.showdown.Converter === 'function') {
+            var converter = new globalThis.showdown.Converter();
             return converter.makeHtml.bind(converter);
         }
         return null;
     }
 
-    if (typeof global.markdownit !== 'undefined') {
-        if (!global.markdownit) {
+    if (typeof globalThis.markdownit !== 'undefined') {
+        if (!globalThis.markdownit) {
             return null;
         }
-        var parser = typeof global.markdownit === 'function' ?
-            global.markdownit() : global.markdownit;
+        var parser = typeof globalThis.markdownit === 'function' ?
+            globalThis.markdownit() : globalThis.markdownit;
         return parser.render.bind(parser);
     }
 

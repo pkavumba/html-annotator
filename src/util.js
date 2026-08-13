@@ -24,8 +24,8 @@ function escapeHtml(string) {
 
 // I18N
 var gettext = (function () {
-    if (typeof global.Gettext === 'function') {
-        var _gettext = new global.Gettext({
+    if (typeof globalThis.Gettext === 'function') {
+        var _gettext = new globalThis.Gettext({
             domain: "annotator"
         });
         return function (msgid) {
@@ -43,7 +43,7 @@ var gettext = (function () {
 // corner of the page (taking into account padding/margin/border on the body
 // element as necessary).
 function mousePosition(event) {
-    var body = global.document.body;
+    var body = globalThis.document.body;
     var offset = {
         top: 0,
         left: 0
