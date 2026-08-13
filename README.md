@@ -15,8 +15,9 @@ Components within Annotator provide:
 1. [Usage](#1-usage)
 2. [Custom Plugins](#2-writing-plugins)
 3. [Development](#3-development)
-4. [Demo](#4-demo)
-5. [License](#5-license)
+4. [Chrome extension](#4-chrome-extension)
+5. [Demo](#5-demo)
+6. [License](#6-license)
 
 ## 1. Usage
 
@@ -150,6 +151,26 @@ npm run serve
 
 The complete local verification command is `npm run check`.
 
+## 4. Chrome extension
+
+The repository includes a modern Manifest V3 Chrome extension package in
+`extensions/chrome`. Install the library dependencies first, then install and
+build the extension package:
+
+```sh
+npm ci
+npm run install:chrome
+npm run build:chrome
+```
+
+Open `chrome://extensions`, enable **Developer mode**, choose **Load unpacked**,
+and select `extensions/chrome`. Click the toolbar action on a webpage to enable
+annotation. The extension stores annotations in `chrome.storage.local`, scoped
+to each page URL.
+
+The generated `extensions/chrome/dist` directory is intentionally ignored by
+Git. Re-run `npm run build:chrome` after changing the extension or library.
+
 ## Reporting a bug
 
 Please report bugs using the `GitHub issue tracker`. Please be sure to use the
@@ -159,10 +180,10 @@ duplicates.
 Please endeavour to follow `good practice for reporting bugs` when you submit
 an issue.
 
-## 4. Demo
+## 5. Demo
 
 Open the `demo.html` file for a demo
 
-## 5. License
+## 6. License
 
 MIT

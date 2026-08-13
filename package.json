@@ -37,14 +37,17 @@
   },
   "scripts": {
     "build": "make",
+    "install:chrome": "npm --prefix extensions/chrome ci",
+    "build:chrome": "npm --prefix extensions/chrome run build",
+    "check:chrome": "npm run install:chrome && npm run build:chrome",
     "clean": "make clean",
     "serve": "./tools/serve",
     "test": "vitest run",
     "test:watch": "vitest",
-    "lint": "eslint src test tools/serve browser.js index.js",
-    "format": "prettier --write package.json README.md",
-    "format:check": "prettier --check package.json README.md",
-    "check": "npm run lint && npm test && npm run build"
+    "lint": "eslint src test tools/serve extensions/chrome browser.js index.js",
+    "format": "prettier --write package.json README.md extensions/chrome/package.json extensions/chrome/manifest.json extensions/chrome/background.js extensions/chrome/build.mjs extensions/chrome/src/*.js extensions/chrome/README.md",
+    "format:check": "prettier --check package.json README.md extensions/chrome/package.json extensions/chrome/manifest.json extensions/chrome/background.js extensions/chrome/build.mjs extensions/chrome/src/*.js extensions/chrome/README.md",
+    "check": "npm run lint && npm test && npm run build && npm run check:chrome"
   },
   "main": "index.js",
   "browser": "browser.js",

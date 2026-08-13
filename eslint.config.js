@@ -5,12 +5,13 @@ module.exports = [
         ignores: [
             'node_modules/**',
             'pkg/**',
+            'extensions/chrome/dist/**',
             'coverage/**',
             '.deps/**'
         ]
     },
     {
-    files: ['**/*.js', 'tools/serve'],
+        files: ['**/*.js', '**/*.mjs', 'tools/serve'],
         languageOptions: {
             ecmaVersion: 2022,
             sourceType: 'commonjs',
@@ -29,6 +30,12 @@ module.exports = [
             'no-debugger': 'off',
             'no-undef': 'off',
             'no-unused-vars': 'off'
+        }
+    },
+    {
+        files: ['extensions/chrome/**/*.js', 'extensions/chrome/**/*.mjs'],
+        languageOptions: {
+            sourceType: 'module'
         }
     }
 ];

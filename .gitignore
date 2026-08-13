@@ -2,4 +2,5 @@
 .deps/
 doc/_build/
 node_modules/
+extensions/chrome/dist/
 #pkg/
