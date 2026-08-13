@@ -13,9 +13,10 @@ Components within Annotator provide:
 # Table of Contents
 
 1. [Usage](#1-usage)
-2. [Custom Plugins](#2-plugins)
+2. [Custom Plugins](#2-writing-plugins)
 3. [Development](#3-development)
-4. [LICENSE](#4-license)
+4. [Demo](#4-demo)
+5. [License](#5-license)
 
 ## 1. Usage
 
@@ -82,7 +83,7 @@ uri: window.location.href
 });
 ```
 
-## 2. Writing a plugins
+## 2. Writing plugins
 
 A plugin is a JS Object that implements certain callback methods.
 
@@ -120,19 +121,34 @@ This is a list of module hooks, when they are called, and what arguments they re
 
 ## 3. Development
 
+Development uses Node.js 22.22.2 or newer.
+
+Install the pinned dependency tree with:
+
+```sh
+npm ci
 ```
 
-npm install
+Run the test suite (288 tests) and lint checks with:
 
+```sh
+npm test
+npm run lint
 ```
 
-### Compiles and hot-reloads for development
+Build the distributable browser bundles with:
 
+```sh
+npm run build
 ```
 
+Start the local development server at <http://localhost:4000>:
+
+```sh
 npm run serve
-
 ```
+
+The complete local verification command is `npm run check`.
 
 ## Reporting a bug
 
@@ -147,6 +163,6 @@ an issue.
 
 Open the `demo.html` file for a demo
 
-## 5. LiCENSE
+## 5. License
 
 MIT

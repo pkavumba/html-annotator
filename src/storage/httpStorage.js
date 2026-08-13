@@ -133,44 +133,14 @@ HttpStorage.prototype.URI = function () {
  * :rtype: jqXHR
  */
 HttpStorage.prototype._apiRequest = async function (action, obj) {
-    var id = obj && obj.id;
-    var url = this._urlFor(action, id);
-    var method = this._methodFor(action);
-    obj.uuid = this.UUID();
-    //headers: this.options.headers,
-    //console.log(url);
-    var data;
-
-    //console.log(obj);
-    obj.uri = this.URI();
-    obj.user = "hello";
-    var params = {};
-    if (method == "PUT" || method == "POST") {
-        data = obj;
-    } else {
-        data = {};
-    }
-    if (action == 'search') {
-        params = {
-            'uri': obj.uri,
-            'user': obj.user
-        }
-    }
-
+    var options = this._apiRequestOptions(action, obj);
     try {
-        var res = await axios({
-            method: method,
-            url: url,
-            data: data,
-            params: params
-        });
-        //console.log("async", res.data);
+        var response = await axios(options);
+        return typeof response.data === "undefined" ? obj : response.data;
     } catch (error) {
-        //console.log(error.response);
-        this._onError.apply(self, arguments);
+        this._onError(error.request || error.response || error);
+        throw error;
     }
-
-    return obj;
 };
 
 /*
@@ -184,15 +154,10 @@ HttpStorage.prototype._apiRequest = async function (action, obj) {
  */
 HttpStorage.prototype._apiRequestOptions = function (action, obj) {
     var method = this._methodFor(action);
-    var self = this;
-
     var opts = {
-        type: method,
-        dataType: "json",
-        error: function () {
-            self._onError.apply(self, arguments);
-        },
-        headers: this.options.headers,
+        method: method,
+        url: this._urlFor(action, obj && obj.id),
+        headers: $.extend({}, this.options.headers),
     };
 
     // If emulateHTTP is enabled, we send a POST and put the real method in an
@@ -201,14 +166,12 @@ HttpStorage.prototype._apiRequestOptions = function (action, obj) {
         opts.headers = $.extend(opts.headers, {
             "X-HTTP-Method-Override": method,
         });
-        opts.type = "POST";
+        opts.method = "POST";
     }
 
     // Don't JSONify obj if making search request.
     if (action === "search") {
-        opts = $.extend(opts, {
-            data: obj,
-        });
+        opts.params = obj;
         return opts;
     }
 
@@ -218,19 +181,17 @@ HttpStorage.prototype._apiRequestOptions = function (action, obj) {
     // contentType will be set automatically by jQuery), and put the
     // JSON-encoded payload in the "json" key.
     if (this.options.emulateJSON) {
-        opts.data = {
-            json: data,
-        };
+        opts.data = "json=" + encodeURIComponent(data);
+        opts.headers["Content-Type"] =
+            "application/x-www-form-urlencoded;charset=utf-8";
         if (this.options.emulateHTTP) {
-            opts.data._method = method;
+            opts.data += "&_method=" + encodeURIComponent(method);
         }
         return opts;
     }
 
-    opts = $.extend(opts, {
-        data: data,
-        contentType: "application/json; charset=utf-8",
-    });
+    opts.data = data;
+    opts.headers["Content-Type"] = "application/json; charset=utf-8";
     return opts;
 };
 
@@ -258,7 +219,7 @@ HttpStorage.prototype._urlFor = function (action, id) {
     url += this.options.urls[action];
     // If there's an '{id}' in the URL, then fill in the ID.
     url = url.replace(/\{id\}/, id);
-    return url + "/";
+    return url;
 };
 
 /*

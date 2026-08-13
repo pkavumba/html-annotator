@@ -276,7 +276,7 @@ StorageAdapter.prototype.create = function (obj) {
  * :returns Promise: Resolves to annotation object when stored.
  */
 StorageAdapter.prototype.update = function (obj) {
-    if (typeof obj.uuid === "undefined" || obj.uuid === null) {
+    if (typeof obj.id === "undefined" || obj.id === null) {
         throw new TypeError("annotation must have an id for update()");
     }
     return this._cycle(
@@ -303,7 +303,7 @@ StorageAdapter.prototype.update = function (obj) {
  * :returns Promise: Resolves to annotation object when deleted.
  */
 StorageAdapter.prototype["delete"] = function (obj) {
-    if (typeof obj.uuid === "undefined" || obj.uuid === null) {
+    if (typeof obj.id === "undefined" || obj.id === null) {
         throw new TypeError("annotation must have an id for delete()");
     }
     return this._cycle(
@@ -371,7 +371,7 @@ StorageAdapter.prototype._cycle = function (
         .then(function (ret) {
             // Empty obj without changing identity
             for (var k in obj) {
-                if (obj && obj.hasOwnProperty(k)) {
+                if (obj && Object.prototype.hasOwnProperty.call(obj, k)) {
                     if (k !== "_local") {
                         delete obj[k];
                     }

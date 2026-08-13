@@ -2,25 +2,52 @@
 "use strict";
 
 var util = require('../util');
-var showdown = require('showdown')
+var MarkdownIt = require('markdown-it');
 
 var _t = util.gettext;
+var defaultMarkdown = new MarkdownIt({
+    html: false,
+    linkify: true
+});
+
+function getRenderer() {
+    if (typeof global.showdown !== 'undefined') {
+        if (global.showdown && typeof global.showdown.Converter === 'function') {
+            var converter = new global.showdown.Converter();
+            return converter.makeHtml.bind(converter);
+        }
+        return null;
+    }
+
+    if (typeof global.markdownit !== 'undefined') {
+        if (!global.markdownit) {
+            return null;
+        }
+        var parser = typeof global.markdownit === 'function' ?
+            global.markdownit() : global.markdownit;
+        return parser.render.bind(parser);
+    }
+
+    return defaultMarkdown.render.bind(defaultMarkdown);
+}
 
 
 /**
  * function:: render(annotation)
  *
- * Render an annotation to HTML, converting annotation text from Markdown if
- * Showdown is available in the page.
+ * Render an annotation to HTML, converting annotation text from Markdown.
+ * Applications may provide a global Showdown or markdown-it instance to
+ * customize the parser; markdown-it is used by default.
  *
  * :returns: Rendered HTML.
  * :rtype: String
  */
 var render = exports.render = function render(annotation) {
     var convert = util.escapeHtml;
+    var renderer = getRenderer();
 
-    if (showdown && typeof showdown.Converter === 'function') {
-        convert = new showdown.Converter().makeHtml;
+    if (renderer) {
+        convert = renderer;
     }
 
     if (annotation.text) {
@@ -39,7 +66,7 @@ var render = exports.render = function render(annotation) {
  * if present in the page to render annotations with Markdown text as HTML.
  *
  * .. _Markdown: https://daringfireball.net/projects/markdown/
- * .. _Showdown: https://github.com/showdownjs/showdown
+ * .. _markdown-it: https://github.com/markdown-it/markdown-it
  *
  * **Usage**::
  *
@@ -48,9 +75,9 @@ var render = exports.render = function render(annotation) {
  *     });
  */
 exports.viewerExtension = function viewerExtension(viewer) {
-    if (!showdown || typeof showdown.Converter !== 'function') {
+    if (!getRenderer()) {
         console.warn(_t("To use the Markdown plugin, you must " +
-            "include Showdown into the page first."));
+            "include a Markdown parser into the page first."));
     }
 
     viewer.setRenderer(render);

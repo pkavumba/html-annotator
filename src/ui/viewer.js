@@ -1,4 +1,3 @@
-/* global window */
 "use strict";
 
 var Widget = require('./widget').Widget,
@@ -42,7 +41,7 @@ function parseLinks(data, rel, cond) {
             match = true;
 
         for (var k in cond) {
-            if (cond.hasOwnProperty(k) && d[k] !== cond[k]) {
+            if (Object.prototype.hasOwnProperty.call(cond, k) && d[k] !== cond[k]) {
                 match = false;
                 break;
             }

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-var browserify = require('browserify-middleware');
+var esbuild = require('esbuild');
 var connect = require('connect');
 var jwt = require('jwt-simple');
 var serveStatic = require('serve-static');
@@ -9,6 +9,32 @@ var CONSUMER_SECRET = 'mockconsumersecret';
 var CONSUMER_TTL = 1800;
 
 var app = module.exports = connect();
+
+function bundleMiddleware(entry, options) {
+  return function(request, response, next) {
+    if (request.method !== 'GET' && request.method !== 'HEAD') {
+      return next();
+    }
+
+    var buildOptions = {
+      entryPoints: Array.isArray(entry) ? entry : [entry],
+      bundle: true,
+      platform: 'browser',
+      format: 'iife',
+      loader: {'.css': 'text'},
+      write: false,
+      logLevel: 'silent'
+    };
+    if (options && options.standalone) {
+      buildOptions.globalName = options.standalone;
+    }
+
+    esbuild.build(buildOptions).then(function(result) {
+      response.setHeader('Content-Type', 'application/javascript');
+      response.end(result.outputFiles[0].contents);
+    }).catch(next);
+  };
+}
 
 // Token
 app.use('/api/token', function(request, response) {
@@ -33,7 +59,7 @@ app.use('/api/token', function(request, response) {
   response.end(tok);
 });
 
-app.use('/bundle/html.annotator.js', browserify('index.js', {standalone: 'annotator'}));
+app.use('/bundle/html.annotator.js', bundleMiddleware('index.js', {standalone: 'annotator'}));
 
 // Serve any browserifiable module. Useful when developing external modules. If
 // you are developing the "annotator-widgets" module you can run
@@ -54,7 +80,7 @@ app.use('/bundle/ext', function (req, res, next) {
     next();
   }
   var moduleName = req.url.slice(1, -3);
-  browserify([moduleName])(req, res, next);
+  bundleMiddleware([moduleName])(req, res, next);
 });
 
 // Static files

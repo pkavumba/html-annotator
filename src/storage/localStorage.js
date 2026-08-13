@@ -189,7 +189,7 @@ LocalStorage.prototype.loadAnnotationsFromStore = function () {
     var annotations = this.store.all(this.ANNOTATION_PREFIX)
 
     for (let annotation of annotations) {
-        if (annotation && annotation.hasOwnProperty('uri') && annotation.uri === this.URI()) {
+        if (annotation && Object.prototype.hasOwnProperty.call(annotation, 'uri') && annotation.uri === this.URI()) {
             this.cache[annotation.id] = annotation
             current.push(annotation)
         }

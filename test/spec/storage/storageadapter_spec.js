@@ -1,4 +1,4 @@
-var assert = require('assertive-chai').assert;
+var assert = require('../../assertive-chai').assert;
 
 var storage = require('../../../src/storage'),
     util = require('../../../src/util');
@@ -175,7 +175,7 @@ describe('storage.StorageAdapter', function () {
         });
 
         it("should run the beforeAnnotationCreated/annotationCreated hooks before/after calling the store", function (done) {
-            var hr = MockHookRunner();
+            var hr = new MockHookRunner();
             s = new MockStorage();
             s._callRecorder = hr.runHook;
             a = new storage.StorageAdapter(s, hr.runHook);
@@ -239,7 +239,7 @@ describe('storage.StorageAdapter', function () {
         });
 
         it("should run the beforeAnnotationUpdated/annotationUpdated hooks before/after calling the store", function (done) {
-            var hr = MockHookRunner();
+            var hr = new MockHookRunner();
             s = new MockStorage();
             s._callRecorder = hr.runHook;
             a = new storage.StorageAdapter(s, hr.runHook);
@@ -305,7 +305,7 @@ describe('storage.StorageAdapter', function () {
         });
 
         it("should run the beforeAnnotationDeleted/annotationDeleted hooks before/after calling the store", function (done) {
-            var hr = MockHookRunner();
+            var hr = new MockHookRunner();
             s = new MockStorage();
             s._callRecorder = hr.runHook;
             a = new storage.StorageAdapter(s, hr.runHook);
@@ -372,7 +372,7 @@ describe('storage.StorageAdapter', function () {
         });
 
         it("should run the annotationsLoaded hook after calling the store", function (done) {
-            var hr = MockHookRunner();
+            var hr = new MockHookRunner();
             s = new MockStorage();
             s._callRecorder = hr.runHook;
             a = new storage.StorageAdapter(s, hr.runHook);

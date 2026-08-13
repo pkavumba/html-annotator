@@ -1,4 +1,4 @@
-var assert = require('assertive-chai').assert;
+var assert = require('../../assertive-chai').assert;
 
 var markdown = require('../../../src/ui/markdown'),
     util = require('../../../src/util');
@@ -33,11 +33,19 @@ describe('ui.markdown.render', function () {
         assert.equal('<i>No comment</i>', markdown.render({}));
     });
 
-    it("should HTML escape text if Showdown is not available", function () {
+    it("should HTML escape text if the Markdown parser is disabled", function () {
         global.showdown = null;
 
         assert.equal('escaped', markdown.render({text: 'foo'}));
         sinon.assert.calledWith(util.escapeHtml, 'foo');
+    });
+
+    it("should use the bundled markdown-it parser by default", function () {
+        delete global.showdown;
+
+        assert.equal('<p><strong>bold</strong></p>\n', markdown.render({
+            text: '**bold**'
+        }));
     });
 });
 

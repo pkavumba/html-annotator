@@ -1,4 +1,4 @@
-var assert = require('assertive-chai').assert;
+var assert = require('../../assertive-chai').assert;
 
 var h = require('../../helpers');
 
@@ -139,7 +139,7 @@ describe('annotator.ui.main', function () {
         });
 
         it("passes editorExtensions on to the editor", function () {
-            editor.Editor.reset();
+            editor.Editor.resetHistory();
             plug = main({
                 element: el,
                 editorExtensions: ['foo', 'bar']
@@ -250,7 +250,7 @@ describe('annotator.ui.main', function () {
         });
 
         it("passes viewerExtensions on to the viewer", function () {
-            viewer.Viewer.reset();
+            viewer.Viewer.resetHistory();
             plug = main({
                 element: el,
                 viewerExtensions: ['bar', 'baz']

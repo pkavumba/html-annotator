@@ -34,7 +34,7 @@ function Store() {
 // Returns true if the browser supports local storage.
 Store.prototype.isSupported = function () {
     try {
-        return typeof (Storage) ? true : false;
+        return typeof Storage !== 'undefined';
     } catch (e) {
         return false;
     }
@@ -70,7 +70,7 @@ Store.prototype.all = function (partial) {
     var values = []
     var prefix = this.prefixed(partial)
     for (var key in this.localStorage) {
-        if (this.localStorage.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(this.localStorage, key)) {
             if (key.indexOf(prefix) == 0) {
                 value = this.get(key.slice(this.KEY_PREFIX.length))
                 values.push(value)

@@ -1,4 +1,4 @@
-var assert = require('assertive-chai').assert;
+var assert = require('../../assertive-chai').assert;
 
 var filter = require('../../../src/ui/filter'),
     util = require('../../../src/util');
@@ -165,7 +165,8 @@ describe('ui.filter.Filter', function () {
         var div = null;
 
         beforeEach(function () {
-            plugin.highlights = $('<span /><span /><span /><span /><span />');
+            plugin.highlights = $('<span></span><span></span><span></span>' +
+                                 '<span></span><span></span>');
             // This annotation appears in both filters
             var match = {
                 _local: {
@@ -211,7 +212,8 @@ describe('ui.filter.Filter', function () {
 
     describe("resetHighlights", function () {
         it("should remove the filter-hide class from all highlights", function () {
-            plugin.highlights = $('<span /><span /><span />').addClass(plugin.classes.hl.hide);
+            plugin.highlights = $('<span></span><span></span><span></span>')
+                .addClass(plugin.classes.hl.hide);
             plugin.resetHighlights();
             assert.lengthOf(plugin.highlights.filter('.' + plugin.classes.hl.hide), 0);
         });

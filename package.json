@@ -1,57 +1,68 @@
 {
   "name": "html-annotator",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Annotation for the html content.",
   "repository": {
     "type": "git",
     "url": "https://github.com/pkavumba/html-annotator.git"
   },
+  "engines": {
+    "node": ">=22.22.2"
+  },
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^1.19.0",
     "backbone-extend-standalone": "^0.1.2",
-    "clean-css": "^4.1.11",
-    "enhance-css": "^1.1.0",
-    "es6-promise": "^3.0.2",
-    "insert-css": "^0.2.0",
-    "jquery": "^3.5.0",
-    "xpath-range": "0.0.5"
+    "es6-promise": "^4.2.8",
+    "insert-css": "^2.0.0",
+    "jquery": "^3.7.1",
+    "markdown-it": "^15.0.0",
+    "simple-xpath-position": "^2.0.2",
+    "xpath-range": "^1.1.1"
   },
   "devDependencies": {
-    "assertive-chai": "^1.0.0",
-    "babel-eslint": "^10.1.0",
-    "browserify": "^11.2.0",
-    "browserify-middleware": "^7.0.0",
-    "concat-stream": "^1.5.0",
-    "connect": "^3.4.0",
-    "eslint": "^7.3.1",
-    "esprima": "^2.6.0",
-    "grunt": "^1.1.0",
-    "grunt-contrib-jshint": "^2.1.0",
-    "jscs": "^2.1.1",
-    "jshint": "^2.8.0",
-    "jwt-simple": "^0.5.3",
-    "karma-browserify": "^4.3.0",
-    "karma-mocha": "^0.2.0",
-    "karma-phantomjs-launcher": "^0.2.1",
-    "mocha": "^2.3.3",
-    "phantomjs": "^1.9.18",
-    "prettier": "^2.0.5",
-    "serve-static": "^1.10.0",
-    "showdown": "^1.9.1",
-    "sinon": "^1.17.0",
-    "through": "^2.3.8",
-    "uglify-js": "^2.4.24",
+    "@eslint/js": "^10.0.1",
+    "chai": "^6.2.2",
+    "connect": "^3.7.0",
+    "esbuild": "^0.28.2",
+    "eslint": "^10.8.1",
+    "fake-xml-http-request": "^2.1.2",
+    "jsdom": "^30.0.1",
+    "jwt-simple": "^0.5.6",
+    "prettier": "^3.9.6",
+    "serve-static": "^2.2.1",
+    "sinon": "^22.1.0",
+    "terser": "^5.50.0",
+    "vitest": "^4.1.10",
     "wgxpath": "^1.1.0"
   },
-  "browser": "browser.js",
-  "browserify": {
-    "transform": [
-      "./tools/cssify"
-    ]
-  },
   "scripts": {
+    "build": "make",
+    "clean": "make clean",
     "serve": "./tools/serve",
-    "test": "./node_modules/karma/bin/karma start --single-run",
-    "lint": "jshint src && jscs src && jshint -c test/.jshintrc test && jscs -c test/.jscsrc test"
-  }
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src test tools/serve browser.js index.js",
+    "format": "prettier --write package.json README.md",
+    "format:check": "prettier --check package.json README.md",
+    "check": "npm run lint && npm test && npm run build"
+  },
+  "main": "index.js",
+  "browser": "browser.js",
+  "exports": {
+    ".": {
+      "require": "./index.js",
+      "default": "./index.js"
+    },
+    "./browser": "./browser.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "browser.js",
+    "css",
+    "img",
+    "index.js",
+    "locale",
+    "pkg",
+    "src"
+  ]
 }

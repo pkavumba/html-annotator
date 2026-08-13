@@ -1,6 +1,6 @@
-var assert = require('assertive-chai').assert;
+var assert = require('../../assertive-chai').assert;
 
-var xpathRange = require('xpath-range');
+var xpathRange = require('../../../src/xpath-range');
 
 var highlighter = require('../../../src/ui/highlighter'),
     util = require('../../../src/util');

@@ -1,4 +1,4 @@
-var assert = require('assertive-chai').assert;
+var assert = require('../assertive-chai').assert;
 
 var annotator = require('../../browser');
 
@@ -23,4 +23,3 @@ describe("noConflict()", function () {
         assert.equal(result, _annotator);
     });
 });
-

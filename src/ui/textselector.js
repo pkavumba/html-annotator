@@ -1,6 +1,6 @@
 "use strict";
 
-var xpathRange = require('xpath-range');
+var xpathRange = require('../xpath-range');
 
 var util = require('../util');
 

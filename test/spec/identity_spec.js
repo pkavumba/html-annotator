@@ -1,4 +1,4 @@
-var assert = require('assertive-chai').assert;
+var assert = require('../assertive-chai').assert;
 
 var identity = require('../../src/identity');
 

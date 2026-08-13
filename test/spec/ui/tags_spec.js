@@ -1,4 +1,4 @@
-var assert = require('assertive-chai').assert;
+var assert = require('../../assertive-chai').assert;
 
 var tags = require('../../../src/ui/tags');
 var util = require('../../../src/util');

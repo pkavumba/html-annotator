@@ -4,7 +4,7 @@
  *
  * Copyright 2011-2019, Ben Major
  * Licensed under the MIT License:
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -22,7 +22,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- * 
+ *
  */
 
 "use strict";
@@ -913,7 +913,7 @@ var jQuery = require('jquery');
     }
 
     $.event.special.orientationchange.orientation = get_orientation = function () {
-        var isPortrait = true,
+        var isPortrait,
             elem = document.documentElement;
 
         if (settings.orientation_support) {

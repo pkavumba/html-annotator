@@ -1,9 +1,9 @@
-BROWSERIFY := node_modules/.bin/browserify
-UGLIFYJS := node_modules/.bin/uglifyjs
+ESBUILD := node_modules/.bin/esbuild
+TERSER := node_modules/.bin/terser
 
 # Check that the user has run 'npm install'
-ifeq ($(shell which $(BROWSERIFY) >/dev/null 2>&1; echo $$?), 1)
-$(error The 'browserify' command was not found. Please ensure you have run 'npm install' before running make.)
+ifeq ($(shell which $(ESBUILD) >/dev/null 2>&1; echo $$?), 1)
+$(error The 'esbuild' command was not found. Please ensure you have run 'npm install' before running make.)
 endif
 
 SRC := $(shell find src -type f -name '*.js')
@@ -13,14 +13,13 @@ annotator: pkg/html.annotator.min.js
 
 pkg/%.min.js: pkg/%.js
 	@echo Writing $@
-	@$(UGLIFYJS) --preamble "$$(tools/preamble)" $< >$@
+	@{ tools/preamble; $(TERSER) $<; } >$@
 
-pkg/html.annotator.js: browser.js
+pkg/html.annotator.js: browser.js $(SRC)
 	@echo Writing $@
 	@mkdir -p pkg/ .deps/
-	@$(BROWSERIFY) -s annotator $< >$@
-	@$(BROWSERIFY) --list $< | \
-	sed 's#^#$@: #' >.deps/annotator.d
+	@$(ESBUILD) $< --bundle --platform=browser --format=iife --global-name=annotator --loader:.css=text --outfile=$@
+	@printf '%s: %s\n' '$@' '$<' >.deps/annotator.d
 
 clean:
 	rm -rf .deps pkg
@@ -29,7 +28,7 @@ test:
 	npm test
 
 develop:
-	npm start
+	npm run serve
 
 #doc:
 #	cd doc && $(MAKE) html

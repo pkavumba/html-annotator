@@ -1,7 +1,9 @@
 // Disable cyclomatic complexity checking for this file
 // jshint -W074
 
-var xpath = require('xpath-range').xpath;
+var xpath = require('../src/xpath-range').xpath;
+var fs = require('fs');
+var path = require('path');
 
 var util = require('../src/util');
 var $ = util.$;
@@ -79,10 +81,10 @@ function fix() {
 
 function getFixture(fname) {
     if (!(fname in fixtureMemo)) {
-        fixtureMemo[fname] = $.ajax({
-            url: "/base/test/fixtures/" + fname + ".html",
-            async: false
-        }).responseText;
+        fixtureMemo[fname] = fs.readFileSync(
+            path.join(__dirname, 'fixtures', fname + '.html'),
+            'utf8'
+        );
     }
     return fixtureMemo[fname];
 }

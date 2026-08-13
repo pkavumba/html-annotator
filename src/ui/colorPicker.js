@@ -23,8 +23,8 @@ var _t = util.gettext;
 exports.editorExtension = function editorExtension(e) {
     // The input element added to the Annotator.Editor wrapped in jQuery.
     // Cached to save having to recreate it everytime the editor is displayed.
-    var field = null;
-    var input = null;
+    var field;
+    var input;
 
     function updateField(field, annotation) {
         var value = '';

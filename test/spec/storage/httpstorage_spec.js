@@ -1,4 +1,4 @@
-var assert = require('assertive-chai').assert;
+var assert = require('../../assertive-chai').assert;
 
 var storage = require('../../../src/storage');
 
@@ -184,7 +184,7 @@ describe("storage.HttpStorage", function () {
             onError = sinon.spy();
         });
 
-        it("calls the onError handler when an error occurs", function (done) {
+        it("calls the onError handler when an error occurs", function () {
             store = new storage.HttpStorage({
                 onError: onError
             });
@@ -194,9 +194,8 @@ describe("storage.HttpStorage", function () {
 
             var check = function () {
                 sinon.assert.calledOnce(onError);
-                done();
             };
-            res.then(check, check);
+            return res.then(check, check);
         });
     });
 });
